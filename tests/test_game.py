@@ -11,6 +11,10 @@ class TestGame(unittest.TestCase):
         for letter in grid:
             self.assertIn(letter, string.ascii_uppercase)
 
+    def test_empty_word_is_invalid(self):
+        new_game = Game()
+        self.assertIs(new_game.is_valid(''), False)
+
     def test_is_valid(self):
         new_game = Game()
         new_game.grid = list('KWEUEAKRZ') # Force the grid to a test case:
