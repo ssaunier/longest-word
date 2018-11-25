@@ -1,13 +1,22 @@
 pipeline {
-    agent { docker { image 'python:3.7' } }
+    agent {
+        docker {
+            image 'python:3.7'
+        }
+    }
+    environment {
+        HOME = "${env.WORKSPACE}"
+    }
     stages {
         stage('build') {
             steps {
-                withEnv(["HOME=${env.WORKSPACE}"]) {
-                    sh 'pip install pipenv --user'
-                    sh 'pipenv install --dev'
-                    sh 'pipenv run nosetests'
-                }
+                sh 'pip install pipenv --user'
+                sh '~/.local/bin/pipenv install --dev'
+            }
+        }
+        stage('test') {
+            steps {
+                sh '~/.local/bin/pipenv run nosetests'
             }
         }
     }
